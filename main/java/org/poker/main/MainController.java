@@ -77,7 +77,7 @@ public final class MainController {
             scores=new HashMap();
             scores.put(pl1.getName(), scorepl1);
             scores.put(pl2.getName(), scorepl2);
-            if (mode==VISUAL_GAME) Thread.sleep(1000);
+            if (mode==VISUAL_GAME) Thread.sleep(3000);
         }
         texasHoldEmView.dispose();
         return scores;
