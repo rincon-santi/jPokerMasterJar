@@ -48,14 +48,14 @@ public final class MainController {
         TexasHoldEmView texasHoldEmView = new TexasHoldEmView(strategyMain);
         if (mode==VISUAL_GAME) texasHoldEmView.setVisible(true);
         strategyMain = texasHoldEmView.getStrategy();
+        Map<String,Double> scores=new HashMap<String, Double>();
         List<IStrategy> strategies = new ArrayList<>();
         strategies.add(strategyMain);
         strategies.add(pl2);
-        Collections.shuffle(strategies);
-        Map<String,Double> scores=new HashMap<String, Double>();
         scores.put(pl1.getName(), new Double(0));
         scores.put(pl2.getName(), new Double(0));
         for (int i=0; i<iterations; i++) {
+            Collections.shuffle(strategies);
             Settings settings = new Settings();
             settings.setMaxErrors(3);
             settings.setMaxPlayers(2);

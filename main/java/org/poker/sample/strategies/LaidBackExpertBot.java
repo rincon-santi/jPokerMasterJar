@@ -180,9 +180,17 @@ public class LaidBackExpertBot implements IStrategy{
             maxAp=BIGBLINDTABLE[enteros[0]][enteros[1]];
         boolean goAllIn=false;
         if (myChips <= (state.getSettings().getBigBlind()*maxAp)) goAllIn=true;
-        if (smallBlind && goAllIn) return new BetCommand(BetCommandType.ALL_IN);
+        PlayerInfo otherPlInfo= state.getPlayer((state.getPlayerTurn()+1)%2);
+        if (smallBlind && goAllIn){
+            if (!otherPlInfo.isActive()) return new BetCommand(BetCommandType.CALL);
+            else if ((otherPlInfo.getChips()+otherPlInfo.getBet())<(myChips+state.getPlayer(state.getPlayerTurn()).getBet())) return new BetCommand(BetCommandType.RAISE, (otherPlInfo.getChips()+otherPlInfo.getBet()));
+            else return new BetCommand(BetCommandType.ALL_IN);
+        }
         else if (!goAllIn) return new BetCommand(BetCommandType.FOLD);
-        else if (state.getPlayer((state.getPlayerTurn()+1)%2).isActive()) return new BetCommand(BetCommandType.ALL_IN);
+        else if (otherPlInfo.isActive()) {
+            if ((otherPlInfo.getChips()+otherPlInfo.getBet())<(myChips+state.getPlayer(state.getPlayerTurn()).getBet())) return new BetCommand(BetCommandType.RAISE, (otherPlInfo.getChips()+otherPlInfo.getBet()));
+            else return new BetCommand(BetCommandType.ALL_IN);
+        }
         else return new BetCommand(BetCommandType.CALL);
     }
 

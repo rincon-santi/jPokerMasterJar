@@ -179,10 +179,18 @@ public class AgressiveExpertBot implements IStrategy{
         else
             maxAp=BIGBLINDTABLE[enteros[0]][enteros[1]];
         boolean goAllIn=false;
+        PlayerInfo otherPlInfo= state.getPlayer((state.getPlayerTurn()+1)%2);
         if (myChips <= (state.getSettings().getBigBlind()*maxAp)) goAllIn=true;
-        if (smallBlind && goAllIn) return new BetCommand(BetCommandType.ALL_IN);
-        else if (!smallBlind && state.getPlayer((state.getPlayerTurn()+1)%2).isActive()) {
-            if (myChips <= ((SMALLBLINDTABLE[enteros[0]][enteros[1]])*(state.getSettings().getBigBlind()))) return new BetCommand(BetCommandType.ALL_IN);
+        if (smallBlind && goAllIn){
+            if (!otherPlInfo.isActive()) return new BetCommand(BetCommandType.CALL);
+            else if ((otherPlInfo.getChips()+otherPlInfo.getBet())<(myChips+state.getPlayer(state.getPlayerTurn()).getBet())) return new BetCommand(BetCommandType.RAISE, (otherPlInfo.getChips()+otherPlInfo.getBet()));
+            else return new BetCommand(BetCommandType.ALL_IN);
+        }
+        else if (!smallBlind && otherPlInfo.isActive()) {
+            if (myChips <= ((SMALLBLINDTABLE[enteros[0]][enteros[1]])*(state.getSettings().getBigBlind()))){
+                if ((otherPlInfo.getChips()+otherPlInfo.getBet())<(myChips+state.getPlayer(state.getPlayerTurn()).getBet())) return new BetCommand(BetCommandType.RAISE, (otherPlInfo.getChips()+otherPlInfo.getBet()));
+                else return new BetCommand(BetCommandType.ALL_IN);
+            }
             else return new BetCommand(BetCommandType.FOLD);
         }
         else if (!goAllIn) return new BetCommand(BetCommandType.FOLD);
