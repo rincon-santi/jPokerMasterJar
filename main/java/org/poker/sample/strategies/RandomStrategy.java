@@ -37,6 +37,10 @@ public class RandomStrategy implements IStrategy {
     private double aggressivity = 0.5 + RAND.nextDouble() / 2;
     private BetCommand lastBet = null;
 
+    public RandomStrategy(){
+        this.name="random_expert";
+    }
+    
     public RandomStrategy(String name) {
         this.name = "Random-" + name;
     }

@@ -32,7 +32,7 @@ import org.poker.api.game.TexasHoldEmUtil.BetCommandType;
  *
  * @author Santiago Rincon Martinez <rincon.santi@gmail.com>
  */
-public class ExpertBot implements IStrategy{
+public class LaidBackExpertBot implements IStrategy{
     
     private final static int [][] SMALLBLINDTABLE={
         {20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20},
@@ -70,11 +70,11 @@ public class ExpertBot implements IStrategy{
     private boolean smallBlind;
     //Aquí puedes crear más variables privadas
     
-    public ExpertBot(){
+    public LaidBackExpertBot(){
         //Este es el constructor de la estrategia de juego
         //aquí deberías dar valores a las correspondientes
         //variables privadas, o, como mínimo, al nombre
-        name="expert";
+        name="laid-back_expert";
     }
    
 
@@ -226,7 +226,7 @@ public class ExpertBot implements IStrategy{
         //cada mano, que será cuando se ejecute. En cuanto a los datos sobre la
         //partida, el objeto state de la clase IMaskedGameInfo es similar al que
         //ya utilizamos en la función getCommand().
-        for (int i=0; i<state.getPlayers().size(); i++) if (name.equals(state.getPlayer(i))){
+        for (int i=0; i<state.getPlayers().size(); i++) if (name.equals(state.getPlayer(i).getName())){
             if (state.getPlayerTurn()==i) smallBlind=true;
             else smallBlind=false;
         }
