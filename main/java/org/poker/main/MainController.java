@@ -43,7 +43,7 @@ public final class MainController {
     private MainController() {
     }
 
-    public static Map<String, Double> run(IStrategy pl1, IStrategy pl2, int mode, int iterations) throws Exception {
+    public static Map<String, Double> run(IStrategy pl1, IStrategy pl2, int mode, int iterations, long BB, long initialChips) throws Exception {
         IStrategy strategyMain = pl1;
         TexasHoldEmView texasHoldEmView = new TexasHoldEmView(strategyMain);
         if (mode==VISUAL_GAME) texasHoldEmView.setVisible(true);
@@ -61,9 +61,9 @@ public final class MainController {
             settings.setMaxPlayers(2);
             settings.setMaxRounds(1000);
             settings.setTime(1000000000);
-            settings.setPlayerChip(5000L);
+            settings.setPlayerChip(BB*initialChips);
             settings.setRounds4IncrementBlind(20);
-            settings.setSmallBlind(settings.getPlayerChip() / 100);
+            settings.setSmallBlind(BB / 2);
             IGameController controller = new GameController();
             controller.setSettings(settings);
             for (IStrategy strategy : strategies) {
